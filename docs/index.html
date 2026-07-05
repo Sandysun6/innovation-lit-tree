@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>创新经济学文献树</title>
+<style>
+:root{
+  --bg:#faf9f6; --panel:#ffffff; --ink:#1f2430; --muted:#6b7280; --line:#e5e2da;
+  --accent:#8a5a2b; --chip:#f0ede6; --hover:#f5f2ea; --shadow:0 8px 30px rgba(20,20,30,.12);
+}
+:root[data-theme="dark"]{
+  --bg:#14161c; --panel:#1d2027; --ink:#e8e6e1; --muted:#9aa0ab; --line:#2e323b;
+  --accent:#d8a35c; --chip:#262a33; --hover:#242832; --shadow:0 8px 30px rgba(0,0,0,.5);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14161c; --panel:#1d2027; --ink:#e8e6e1; --muted:#9aa0ab; --line:#2e323b;
+    --accent:#d8a35c; --chip:#262a33; --hover:#242832; --shadow:0 8px 30px rgba(0,0,0,.5);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.55}
+header{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20;flex-wrap:wrap}
+header h1{font-size:19px;font-weight:700}
+header .sub{font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:4px;margin-left:auto}
+.tabs button{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 14px;border-radius:18px;cursor:pointer;font-size:14px}
+.tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+#themeBtn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:50%;width:32px;height:32px;cursor:pointer}
+main{max-width:1280px;margin:0 auto;padding:16px 20px 60px}
+.view{display:none}.view.on{display:block}
+/* 树 */
+#treeWrap{position:relative;border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+#treeSvg{display:block;width:100%;height:calc(100vh - 170px);min-height:480px;cursor:grab}
+#treeHint{position:absolute;left:14px;top:12px;font-size:12px;color:var(--muted);pointer-events:none}
+#treeMore{position:absolute;right:14px;top:12px;display:none}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px}
+.btn:hover{background:var(--hover)}
+#tooltip{position:fixed;display:none;max-width:340px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12.5px;box-shadow:var(--shadow);z-index:60;pointer-events:none}
+/* 过滤条 & 表格 */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.filters input[type=text]{flex:1;min-width:220px;padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);font-size:14px}
+.filters input[type=number]{width:80px;padding:7px 8px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink)}
+.filters select{padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink)}
+.filters label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{border:1px solid var(--line);background:var(--chip);border-radius:14px;padding:3px 11px;font-size:12.5px;cursor:pointer;user-select:none}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tableBox{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:860px}
+th{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);color:var(--muted);font-weight:600;white-space:nowrap;position:sticky;top:0;background:var(--panel)}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:hover td{background:var(--hover)}
+.tTitle{cursor:pointer;font-weight:550}
+.tTitle:hover{color:var(--accent)}
+.tSub{font-size:12px;color:var(--muted)}
+.bchip{display:inline-block;font-size:11px;border-radius:9px;padding:1px 7px;margin:1px 2px 1px 0;color:#fff;white-space:nowrap}
+.new{display:inline-block;background:#c0392b;color:#fff;font-size:10.5px;border-radius:8px;padding:1px 6px;margin-left:5px;vertical-align:2px}
+.statusBtn{cursor:pointer;border:1px solid var(--line);border-radius:12px;font-size:11.5px;padding:2px 9px;background:var(--chip);color:var(--ink);white-space:nowrap}
+.pager{display:flex;gap:10px;align-items:center;justify-content:center;padding:14px;color:var(--muted);font-size:13px}
+/* 本周新增卡片 */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:14px}
+.card h3{font-size:14.5px;margin-bottom:6px;cursor:pointer}
+.card h3:hover{color:var(--accent)}
+.empty{color:var(--muted);padding:40px;text-align:center}
+/* 详情抽屉 */
+#drawerBg{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;z-index:40}
+#drawer{position:fixed;top:0;right:-620px;width:min(620px,94vw);height:100%;background:var(--panel);z-index:50;box-shadow:var(--shadow);transition:right .22s ease;overflow-y:auto;padding:22px 24px}
+#drawer.open{right:0}
+#drawer h2{font-size:17px;margin-bottom:4px}
+#drawer .en{font-size:14px;color:var(--muted);margin-bottom:10px}
+#drawer .meta{font-size:13px;margin:10px 0;color:var(--muted)}
+#drawer .abs{font-size:13.5px;background:var(--chip);border-radius:10px;padding:12px;margin:10px 0}
+#drawer a{color:var(--accent)}
+.ccBox{border:1px dashed var(--line);border-radius:10px;padding:12px;margin:10px 0;font-size:13px}
+.ccBox b{color:var(--accent)}
+.authorLink{cursor:pointer;color:var(--accent)}
+.secT{font-weight:650;font-size:13px;margin:14px 0 6px}
+.miniList div{padding:5px 0;border-bottom:1px dashed var(--line);font-size:13px;cursor:pointer}
+.miniList div:hover{color:var(--accent)}
+footer{max-width:1280px;margin:0 auto;padding:10px 20px 30px;color:var(--muted);font-size:12px}
+@media (max-width:640px){ header h1{font-size:16px} .tabs button{padding:5px 10px;font-size:13px} }
+</style>
+</head>
+<body>
+<header>
+  <div><h1>🌳 创新经济学文献树</h1><div class="sub" id="metaLine">加载中…</div></div>
+  <div class="tabs">
+    <button data-v="tree" class="on">🌳 文献树</button>
+    <button data-v="table">📋 文献库</button>
+    <button data-v="week">🆕 本周新增</button>
+  </div>
+  <button id="themeBtn" title="切换明暗">◐</button>
+</header>
+<main>
+  <section id="v-tree" class="view on">
+    <div id="treeWrap">
+      <div id="treeHint">点击分支展开高引论文 · 点击树叶看详情 · 滚轮缩放 · 拖动平移 · 点空白处收起</div>
+      <button id="treeMore" class="btn">展开更多 +20</button>
+      <svg id="treeSvg" viewBox="-520 -520 1040 1040"></svg>
+    </div>
+  </section>
+  <section id="v-table" class="view">
+    <div class="filters">
+      <input type="text" id="q" placeholder="搜索题目 / 作者（中英文）…">
+      <label>年份 <input type="number" id="y1" placeholder="1990"> – <input type="number" id="y2" placeholder="2026"></label>
+      <select id="jSel"><option value="">全部期刊</option></select>
+      <select id="stSel">
+        <option value="">全部状态</option><option value="read">要精读</option>
+        <option value="scan">已扫过</option><option value="arch">已存档</option><option value="none">未标记</option>
+      </select>
+      <select id="sortSel">
+        <option value="y">按年份 ↓</option><option value="c">按引用 ↓</option><option value="fs">按入库 ↓</option>
+      </select>
+      <label><input type="checkbox" id="newOnly"> 只看新增</label>
+      <label><input type="checkbox" id="showSup"> 显示已被发表版接管的 WP</label>
+    </div>
+    <div class="chips" id="branchChips"></div>
+    <div class="tableBox"><table>
+      <thead><tr><th>状态</th><th>题目</th><th>作者</th><th>年份</th><th>来源</th><th>分支</th><th>引用</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+    <div class="pager">
+      <button class="btn" id="prevPg">‹ 上一页</button><span id="pgInfo"></span><button class="btn" id="nextPg">下一页 ›</button>
+      <button class="btn" id="expMarks" title="导出我的标记（本地备份）">导出标记</button>
+    </div>
+  </section>
+  <section id="v-week" class="view">
+    <div id="weekBox" class="cards"></div>
+  </section>
+</main>
+<div id="tooltip"></div>
+<div id="drawerBg"></div>
+<aside id="drawer"></aside>
+<footer>数据来源：OpenAlex（每周一 09:00 自动更新）· 标记仅存于您的浏览器（localStorage），任何访客不可见 · <a href="https://github.com/Sandysun6/innovation-lit-tree" style="color:var(--accent)">GitHub 仓库</a></footer>
+<script>
+"use strict";
+/* ============ 全局状态 ============ */
+let P=[], BR=[], META=null, ABS=null, absLoading=null;
+const BRN={}, BRC={};   // code→name, code→color
+const marks=JSON.parse(localStorage.getItem("iltMarks")||"{}");
+const ST_CYCLE=["none","read","scan","arch"];
+const ST_LABEL={none:"未读",read:"★ 要精读",scan:"✓ 扫过",arch:"⊘ 存档"};
+const $=s=>document.querySelector(s);
+
+/* ============ 主题 ============ */
+const themeBtn=$("#themeBtn");
+const savedTheme=localStorage.getItem("iltTheme");
+if(savedTheme) document.documentElement.dataset.theme=savedTheme;
+themeBtn.onclick=()=>{
+  const cur=document.documentElement.dataset.theme||
+    (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  const next=cur==="dark"?"light":"dark";
+  document.documentElement.dataset.theme=next;
+  localStorage.setItem("iltTheme",next);
+  drawTree();
+};
+
+/* ============ 数据加载 ============ */
+Promise.all([
+  fetch("data/core.json").then(r=>r.json()),
+  fetch("data/branches.json").then(r=>r.json()),
+  fetch("data/meta.json").then(r=>r.json()),
+]).then(([core,br,meta])=>{
+  P=core; BR=br; META=meta;
+  BR.forEach((b,i)=>{BRN[b.code]=b.name; BRC[b.code]=`hsl(${Math.round(i*360/BR.length)} 42% 46%)`;});
+  const d=(meta.built||"").slice(0,10);
+  $("#metaLine").textContent=`共 ${meta.total} 篇 · 数据构建 ${d} · A线补捞进行中，数据持续变全`;
+  initTable(); drawTree(); renderWeek();
+});
+function loadAbs(){
+  if(ABS) return Promise.resolve(ABS);
+  if(!absLoading) absLoading=fetch("data/abstracts.json").then(r=>r.json()).then(a=>(ABS=a,a));
+  return absLoading;
+}
+
+/* ============ 工具 ============ */
+const latestDate=()=>META&&META.latest_update?META.latest_update.date:null;
+const isNew=p=>latestDate()&&p.fs===latestDate();
+const authorsOf=p=>p.au.join("; ");
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function bchips(p){return p.b.length?p.b.map(c=>`<span class="bchip" style="background:${BRC[c]||"#888"}">${BRN[c]||c}</span>`).join(""):`<span class="bchip" style="background:#9aa0ab">待归类</span>`;}
+function statusBtn(p){const st=marks[p.id]||"none";return `<button class="statusBtn" data-id="${p.id}" onclick="cycleMark(event,'${p.id}')">${ST_LABEL[st]}</button>`;}
+window.cycleMark=(ev,id)=>{
+  ev.stopPropagation();
+  const cur=marks[id]||"none";
+  const next=ST_CYCLE[(ST_CYCLE.indexOf(cur)+1)%ST_CYCLE.length];
+  if(next==="none") delete marks[id]; else marks[id]=next;
+  localStorage.setItem("iltMarks",JSON.stringify(marks));
+  document.querySelectorAll(`.statusBtn[data-id="${id}"]`).forEach(b=>b.textContent=ST_LABEL[next]);
+};
+
+/* ============ 视图切换 ============ */
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on");
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("on"));
+  $("#v-"+b.dataset.v).classList.add("on");
+});
+
+/* ============ 树视图 ============ */
+const svg=$("#treeSvg"), NS="http://www.w3.org/2000/svg";
+let selBranch=null, leafShown=20, vb={x:-520,y:-520,w:1040,h:1040};
+function el(n,attrs,parent){const e=document.createElementNS(NS,n);for(const k in attrs)e.setAttribute(k,attrs[k]);(parent||svg).appendChild(e);return e;}
+function inkColor(){return getComputedStyle(document.documentElement).getPropertyValue("--ink").trim();}
+function mutedColor(){return getComputedStyle(document.documentElement).getPropertyValue("--muted").trim();}
+function drawTree(){
+  svg.innerHTML="";
+  svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+  const pool=P.filter(p=>!p.sup);
+  const counts={}; BR.forEach(b=>counts[b.code]=0);
+  pool.forEach(p=>p.b.forEach(c=>{if(c in counts)counts[c]++;}));
+  const n=BR.length, ink=inkColor(), muted=mutedColor();
+  // 中心
+  el("circle",{cx:0,cy:0,r:46,fill:"var(--accent)",opacity:.92});
+  const ct=el("text",{x:0,y:-4,"text-anchor":"middle","font-size":15,fill:"#fff","font-weight":"700"});ct.textContent="创新经济学";
+  const ct2=el("text",{x:0,y:14,"text-anchor":"middle","font-size":10.5,fill:"#fff",opacity:.9});ct2.textContent=pool.length+" 篇";
+  BR.forEach((b,i)=>{
+    const ang=i/n*2*Math.PI-Math.PI/2;
+    const dim=selBranch&&selBranch!==b.code;
+    const R=170, x=R*Math.cos(ang), y=R*Math.sin(ang);
+    const g=el("g",{opacity:dim?.14:1,cursor:"pointer"});
+    el("line",{x1:46*Math.cos(ang),y1:46*Math.sin(ang),x2:x,y2:y,stroke:BRC[b.code],"stroke-width":2.5+counts[b.code]/220,opacity:.75},g);
+    el("circle",{cx:x,cy:y,r:13+Math.sqrt(counts[b.code])/2,fill:BRC[b.code]},g);
+    const lr=R+34+Math.sqrt(counts[b.code])/2, lx=lr*Math.cos(ang), ly=lr*Math.sin(ang);
+    const anchor=Math.cos(ang)>.35?"start":(Math.cos(ang)<-.35?"end":"middle");
+    const t=el("text",{x:lx,y:ly,"text-anchor":anchor,"font-size":13,fill:ink,"font-weight":"600"},g);
+    t.textContent=b.name;
+    const t2=el("text",{x:lx,y:ly+15,"text-anchor":anchor,"font-size":10.5,fill:muted},g);
+    t2.textContent=counts[b.code]+" 篇";
+    g.addEventListener("click",ev=>{ev.stopPropagation();selBranch=selBranch===b.code?null:b.code;leafShown=20;drawTree();});
+    // 展开树叶
+    if(selBranch===b.code){
+      const leaves=pool.filter(p=>p.b.includes(b.code)).sort((a,c)=>c.c-a.c).slice(0,leafShown);
+      const span=Math.min(2.4,.5+leaves.length*.075);
+      leaves.forEach((p,j)=>{
+        const ring=Math.floor(j/12), idx=j%12, per=Math.min(12,leaves.length-ring*12);
+        const la=ang-span/2+span*(idx+.5)/per, lrr=265+ring*72;
+        const px=lrr*Math.cos(la), py=lrr*Math.sin(la);
+        const lg=el("g",{cursor:"pointer"});
+        el("line",{x1:x,y1:y,x2:px,y2:py,stroke:BRC[b.code],"stroke-width":.7,opacity:.35},lg);
+        const r=3.5+Math.min(9,Math.sqrt(p.c)/6);
+        el("circle",{cx:px,cy:py,r:r,fill:BRC[b.code],opacity:.88,stroke:marks[p.id]==="read"?"#c0392b":"none","stroke-width":2.5},lg);
+        const short=(p.tz||p.ti).slice(0,14)+((p.tz||p.ti).length>14?"…":"");
+        const lt=el("text",{x:px+(Math.cos(la)>0?r+3:-(r+3)),y:py+4,"font-size":9.5,fill:ink,opacity:.85,"text-anchor":Math.cos(la)>0?"start":"end"},lg);
+        lt.textContent=short;
+        lg.addEventListener("click",ev=>{ev.stopPropagation();openDetail(p.id);});
+        lg.addEventListener("mousemove",ev=>showTip(ev,`<b>${esc(p.tz||p.ti)}</b><br>${esc(authorsOf(p))}<br>${p.j} ${p.y} · 被引 ${p.c}`));
+        lg.addEventListener("mouseleave",hideTip);
+      });
+    }
+  });
+  $("#treeMore").style.display=selBranch?"block":"none";
+}
+$("#treeMore").onclick=()=>{leafShown+=20;drawTree();};
+svg.addEventListener("click",()=>{if(selBranch){selBranch=null;drawTree();}});
+// 缩放 & 平移
+svg.addEventListener("wheel",ev=>{
+  ev.preventDefault();
+  const k=ev.deltaY>0?1.12:0.89;
+  const nw=Math.max(300,Math.min(3000,vb.w*k));
+  vb.x+= (vb.w-nw)/2; vb.y+=(vb.h-nw)/2; vb.w=nw; vb.h=nw;
+  svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+},{passive:false});
+let drag=null;
+svg.addEventListener("mousedown",ev=>{drag={x:ev.clientX,y:ev.clientY,vx:vb.x,vy:vb.y};svg.style.cursor="grabbing";});
+addEventListener("mousemove",ev=>{
+  if(!drag)return;
+  const sc=vb.w/svg.clientWidth;
+  vb.x=drag.vx-(ev.clientX-drag.x)*sc; vb.y=drag.vy-(ev.clientY-drag.y)*sc;
+  svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+});
+addEventListener("mouseup",()=>{drag=null;svg.style.cursor="grab";});
+function showTip(ev,html){const t=$("#tooltip");t.innerHTML=html;t.style.display="block";
+  t.style.left=Math.min(innerWidth-360,ev.clientX+14)+"px";t.style.top=(ev.clientY+12)+"px";}
+function hideTip(){$("#tooltip").style.display="none";}
+
+/* ============ 表格视图 ============ */
+let fBranch=null, page=1; const PGSZ=100;
+function initTable(){
+  const chipBox=$("#branchChips");
+  const mk=(code,label)=>{const c=document.createElement("span");c.className="chip";c.textContent=label;
+    c.onclick=()=>{fBranch=fBranch===code?null:code;page=1;
+      chipBox.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));
+      if(fBranch===code)c.classList.add("on"); renderTable();};
+    chipBox.appendChild(c);};
+  BR.forEach(b=>mk(b.code,b.name)); mk("__unc","待归类");
+  const js=[...new Set(P.map(p=>p.j))].sort();
+  js.forEach(j=>{const o=document.createElement("option");o.value=j;o.textContent=j;$("#jSel").appendChild(o);});
+  ["q","y1","y2"].forEach(id=>$("#"+id).addEventListener("input",()=>{page=1;renderTable();}));
+  ["jSel","stSel","sortSel","newOnly","showSup"].forEach(id=>$("#"+id).addEventListener("change",()=>{page=1;renderTable();}));
+  $("#prevPg").onclick=()=>{if(page>1){page--;renderTable();}};
+  $("#nextPg").onclick=()=>{page++;renderTable();};
+  $("#expMarks").onclick=()=>{
+    const blob=new Blob([JSON.stringify(marks,null,1)],{type:"application/json"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+    a.download=`marks_${new Date().toISOString().slice(0,10)}.json`;a.click();};
+  renderTable();
+}
+function filtered(){
+  const q=$("#q").value.trim().toLowerCase();
+  const y1=+$("#y1").value||0, y2=+$("#y2").value||9999;
+  const j=$("#jSel").value, st=$("#stSel").value;
+  const newOnly=$("#newOnly").checked, showSup=$("#showSup").checked;
+  let r=P.filter(p=>{
+    if(!showSup&&p.sup)return false;
+    if(fBranch==="__unc"){if(p.b.length)return false;}
+    else if(fBranch&&!p.b.includes(fBranch))return false;
+    if(p.y&&(p.y<y1||p.y>y2))return false;
+    if(j&&p.j!==j)return false;
+    if(newOnly&&!isNew(p))return false;
+    const m=marks[p.id]||"none";
+    if(st&&((st==="none"&&m!=="none")||(st!=="none"&&m!==st)))return false;
+    if(q){
+      const hay=(p.ti+" "+(p.tz||"")+" "+p.au.join(" ")).toLowerCase();
+      if(!hay.includes(q))return false;
+    }
+    return true;
+  });
+  const k=$("#sortSel").value;
+  r.sort((a,b)=>k==="c"?b.c-a.c:k==="fs"?String(b.fs).localeCompare(String(a.fs)):(b.y||0)-(a.y||0));
+  return r;
+}
+function renderTable(){
+  const r=filtered();
+  const pages=Math.max(1,Math.ceil(r.length/PGSZ));
+  if(page>pages)page=pages;
+  const rows=r.slice((page-1)*PGSZ,page*PGSZ).map(p=>`<tr>
+    <td>${statusBtn(p)}</td>
+    <td><div class="tTitle" onclick="openDetail('${p.id}')">${esc(p.tz||p.ti)}${isNew(p)?'<span class="new">NEW</span>':""}</div>
+        ${p.tz?`<div class="tSub">${esc(p.ti)}</div>`:""}</td>
+    <td class="tSub">${esc(p.au.slice(0,3).join("; "))}${p.au.length>3?" 等":""}</td>
+    <td>${p.y||""}</td><td>${esc(p.j)}</td><td>${bchips(p)}</td><td>${p.c}</td></tr>`).join("");
+  $("#tbody").innerHTML=rows||`<tr><td colspan="7" class="empty">没有符合条件的文献</td></tr>`;
+  $("#pgInfo").textContent=`${r.length} 篇 · 第 ${page}/${pages} 页`;
+}
+
+/* ============ 本周新增 ============ */
+function renderWeek(){
+  const box=$("#weekBox");
+  const lu=META.latest_update;
+  if(!lu||!lu.new_ids||!lu.new_ids.length){
+    box.innerHTML=`<div class="empty">暂无周增记录——管道每周一 09:00 自动运行后，这里会列出当周新论文与粗读卡。</div>`;return;
+  }
+  const byId=Object.fromEntries(P.map(p=>[p.id,p]));
+  box.innerHTML=lu.new_ids.map(id=>{
+    const p=byId[id]; if(!p)return "";
+    const cc=p.cc?`<div class="ccBox">${["rq","identification","data","findings","mechanism"].filter(k=>p.cc[k]).map(k=>`<div><b>${{rq:"问题",identification:"识别",data:"数据",findings:"发现",mechanism:"机制"}[k]}</b>：${esc(p.cc[k])}</div>`).join("")}</div>`:`<div class="tSub" style="margin-top:6px">粗读卡待每周会话生成</div>`;
+    return `<div class="card"><h3 onclick="openDetail('${p.id}')">${esc(p.tz||p.ti)}</h3>
+      <div class="tSub">${esc(authorsOf(p))}</div>
+      <div class="tSub">${esc(p.j)} · ${p.y} · ${bchips(p)}</div>${cc}
+      <div style="margin-top:8px">${statusBtn(p)}</div></div>`;
+  }).join("");
+}
+
+/* ============ 详情抽屉 ============ */
+window.openDetail=id=>{
+  const p=P.find(x=>x.id===id); if(!p)return;
+  const doiLink=p.doi?`<a href="https://doi.org/${p.doi}" target="_blank">DOI ↗</a> · `:"";
+  const others=P.filter(x=>x.id!==id&&!x.sup&&x.au.some(a=>p.au.includes(a)))
+    .sort((a,b)=>(b.y||0)-(a.y||0)).slice(0,10);
+  const cc=p.cc?`<div class="secT">📇 粗读卡</div><div class="ccBox">${["rq","identification","data","findings","mechanism","tree_note"].filter(k=>p.cc[k]).map(k=>`<div><b>${{rq:"研究问题",identification:"识别策略",data:"数据",findings:"主要发现",mechanism:"机制",tree_note:"树上站位"}[k]}</b>：${esc(p.cc[k])}</div>`).join("")}</div>`:"";
+  $("#drawer").innerHTML=`
+    <div style="display:flex;justify-content:space-between;gap:10px">
+      <h2>${esc(p.tz||p.ti)}</h2><button class="btn" onclick="closeDetail()">✕</button></div>
+    ${p.tz?`<div class="en">${esc(p.ti)}</div>`:""}
+    <div>${p.au.map(a=>`<span class="authorLink" onclick="searchAuthor('${esc(a).replace(/'/g,"\\'")}')">${esc(a)}</span>`).join(" · ")}</div>
+    <div class="meta">${esc(p.j)} · ${p.y||"?"} · 被引 ${p.c}${p.sup?" · ⚠ 此 WP 已有发表版":""}</div>
+    <div>${bchips(p)} ${p.tg.map(t=>`<span class="bchip" style="background:#5b6470">#${t}</span>`).join("")}</div>
+    <div style="margin:10px 0">${statusBtn(p)} &nbsp; ${doiLink}<a href="https://openalex.org/${p.id}" target="_blank">OpenAlex ↗</a></div>
+    ${cc}
+    <div class="secT">📄 摘要</div><div class="abs" id="absBox">加载中…</div>
+    <div class="secT">👤 作者研究线（库内其他论文）</div>
+    <div class="miniList">${others.map(o=>`<div onclick="openDetail('${o.id}')">${esc(o.tz||o.ti)} <span class="tSub">(${o.j} ${o.y})</span></div>`).join("")||'<div class="tSub">暂无</div>'}</div>`;
+  $("#drawerBg").style.display="block";
+  $("#drawer").classList.add("open");
+  loadAbs().then(a=>{const b=$("#absBox");if(b)b.textContent=a[id]||"（暂无摘要——补捞后自动补齐）";});
+};
+window.closeDetail=()=>{$("#drawer").classList.remove("open");$("#drawerBg").style.display="none";};
+$("#drawerBg").onclick=closeDetail;
+window.searchAuthor=name=>{
+  closeDetail();
+  document.querySelector('.tabs button[data-v="table"]').click();
+  $("#q").value=name; fBranch=null; page=1; renderTable();
+};
+</script>
+</body>
+</html>
