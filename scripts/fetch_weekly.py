@@ -2,7 +2,7 @@
 - 断点状态在 data/state.json；新增写入 data/papers.json 并生成 data/updates/YYYY-MM-DD.json
 - API 礼貌：~4 req/s，429 退避一次后保存进度退出（下周自然补上）
 """
-import json, re, sys, time
+import json, os, re, sys, time
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -13,6 +13,7 @@ from classify import classify
 
 ROOT = Path(__file__).resolve().parent.parent
 MAILTO = "haonanyan360@gmail.com"
+OPENALEX_API_KEY = os.environ.get("OPENALEX_API_KEY") or os.environ.get("OPENALEX_APIKEY")
 API = "https://api.openalex.org/works"
 
 SOURCES = [
@@ -60,6 +61,8 @@ def restore_abstract(inv):
 
 def get(params, retried=False):
     params = dict(params, mailto=MAILTO)
+    if OPENALEX_API_KEY:
+        params["api_key"] = OPENALEX_API_KEY
     r = requests.get(API, params=params, timeout=60)
     if r.status_code == 429:
         if retried:

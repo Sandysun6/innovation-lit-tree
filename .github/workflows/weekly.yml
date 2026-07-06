@@ -19,6 +19,8 @@ jobs:
           python-version: '3.12'
       - run: pip install requests
       - name: fetch weekly increment
+        env:
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: python scripts/fetch_weekly.py
       - name: build site data
         run: python scripts/build_site_data.py

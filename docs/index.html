@@ -167,7 +167,7 @@ Promise.all([
   P=core; BR=br; META=meta;
   BR.forEach((b,i)=>{BRN[b.code]=b.name; BRC[b.code]=`hsl(${Math.round(i*360/BR.length)} 42% 46%)`;});
   const d=(meta.built||"").slice(0,10);
-  $("#metaLine").textContent=`共 ${meta.total} 篇 · 数据构建 ${d} · A线补捞进行中，数据持续变全`;
+  $("#metaLine").textContent=`共 ${meta.total} 篇 · 数据构建 ${d} · A线补捞完成（有条件验收版）`;
   initTable(); drawTree(); renderWeek();
 });
 function loadAbs(){
