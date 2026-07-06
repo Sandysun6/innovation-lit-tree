@@ -1,0 +1,6 @@
+{
+  "_说明": "核心模式的人工换血文件。每次月度 triage 只改这里，select_core.py 会尊重它。pin=强制入选（钉死不该掉的经典），exclude=强制剔除（算法误收的），note=可选备注 {id: 原因}。id 用 OpenAlex 短号如 W2090841340。",
+  "pin": [],
+  "exclude": [],
+  "note": {}
+}

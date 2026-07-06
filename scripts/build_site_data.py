@@ -11,7 +11,7 @@ papers = json.loads((ROOT / "data/papers.json").read_text())
 
 core, abstracts = [], {}
 for p in papers:
-    core.append({
+    rec = {
         "id": p["id"], "doi": p.get("doi"),
         "ti": p.get("title_en") or "", "tz": p.get("title_zh"),
         "au": [a["name"] for a in p.get("authors", [])],
@@ -21,7 +21,14 @@ for p in papers:
         "b": p.get("branches", []), "tg": p.get("tags", []),
         "fs": p.get("first_seen"), "sup": bool(p.get("superseded")),
         "cc": p.get("coarse_card"),
-    })
+    }
+    if p.get("core"):  # 核心模式字段：仅核心论文携带，控体积
+        rec["co"] = 1
+        rec["cr"] = p.get("core_rank")
+        rec["crs"] = p.get("core_reasons", [])
+        rec["cn"] = 1 if p.get("core_new") else 0
+        rec["cst"] = 1 if p.get("core_star") else 0
+    core.append(rec)
     if p.get("abstract_en"):
         abstracts[p["id"]] = p["abstract_en"]
 
@@ -40,6 +47,8 @@ for name in ["branches.json", "tags.json", "watchlist.json"]:
 (OUT / "meta.json").write_text(json.dumps({
     "built": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     "total": len(core),
+    "core_total": sum(1 for r in core if r.get("co")),
     "latest_update": latest,
 }, ensure_ascii=False))
-print(f"site data: {len(core)} papers, {len(abstracts)} abstracts")
+print(f"site data: {len(core)} papers, {len(abstracts)} abstracts, "
+      f"{sum(1 for r in core if r.get('co'))} core")

@@ -6,32 +6,58 @@
 <title>创新经济学文献树</title>
 <style>
 :root{
-  --bg:#faf9f6; --panel:#ffffff; --ink:#1f2430; --muted:#6b7280; --line:#e5e2da;
-  --accent:#8a5a2b; --chip:#f0ede6; --hover:#f5f2ea; --shadow:0 8px 30px rgba(20,20,30,.12);
+  --bg:#f7f4ee; --panel:#fffdf9; --ink:#22262f; --muted:#726b60; --line:#e7e0d3;
+  --accent:#9a5b2a; --accent-soft:#c98a4e; --gold:#bd8f1f; --new:#c0392b;
+  --chip:#f1ebdf; --hover:#f3ecdf; --shadow:0 10px 34px rgba(60,45,25,.13);
+  --glow:rgba(154,91,42,.10); --radius:14px;
 }
 :root[data-theme="dark"]{
-  --bg:#14161c; --panel:#1d2027; --ink:#e8e6e1; --muted:#9aa0ab; --line:#2e323b;
-  --accent:#d8a35c; --chip:#262a33; --hover:#242832; --shadow:0 8px 30px rgba(0,0,0,.5);
+  --bg:#14161c; --panel:#1c1f27; --ink:#eae7e0; --muted:#9aa0ab; --line:#2d313b;
+  --accent:#e0a35c; --accent-soft:#c98a4e; --gold:#e6c24e; --new:#e0654e;
+  --chip:#252932; --hover:#232732; --shadow:0 12px 36px rgba(0,0,0,.55);
+  --glow:rgba(224,163,92,.12); --radius:14px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#14161c; --panel:#1d2027; --ink:#e8e6e1; --muted:#9aa0ab; --line:#2e323b;
-    --accent:#d8a35c; --chip:#262a33; --hover:#242832; --shadow:0 8px 30px rgba(0,0,0,.5);
+    --bg:#14161c; --panel:#1c1f27; --ink:#eae7e0; --muted:#9aa0ab; --line:#2d313b;
+    --accent:#e0a35c; --accent-soft:#c98a4e; --gold:#e6c24e; --new:#e0654e;
+    --chip:#252932; --hover:#232732; --shadow:0 12px 36px rgba(0,0,0,.55);
+    --glow:rgba(224,163,92,.12);
   }
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.55}
-header{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20;flex-wrap:wrap}
-header h1{font-size:19px;font-weight:700}
-header .sub{font-size:12px;color:var(--muted)}
-.tabs{display:flex;gap:4px;margin-left:auto}
-.tabs button{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 14px;border-radius:18px;cursor:pointer;font-size:14px}
-.tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
-#themeBtn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:50%;width:32px;height:32px;cursor:pointer}
+body{background:var(--bg);color:var(--ink);
+  background-image:radial-gradient(1200px 520px at 78% -8%,var(--glow),transparent 62%);
+  background-attachment:fixed;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+header{display:flex;align-items:center;gap:13px;padding:11px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:saturate(1.4) blur(10px);z-index:20;flex-wrap:wrap;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+header h1{font-size:19px;font-weight:750;letter-spacing:.2px}
+header .sub{font-size:12px;color:var(--muted);margin-top:1px}
+.tabs{display:flex;gap:5px;margin-left:auto}
+.tabs button,#coreBtn,#themeBtn{transition:all .16s ease}
+.tabs button{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 15px;border-radius:20px;cursor:pointer;font-size:14px}
+.tabs button:hover{background:var(--hover)}
+.tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 12px var(--glow)}
+#coreBtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 15px;border-radius:20px;cursor:pointer;font-size:14px;font-weight:600}
+#coreBtn:hover{background:var(--hover)}
+#coreBtn.on{background:linear-gradient(135deg,var(--gold),var(--accent-soft));border-color:transparent;color:#241a06;box-shadow:0 4px 16px color-mix(in srgb,var(--gold) 45%,transparent)}
+#coreBtn .dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+#coreBtn.on .dot{background:#3a2a06}
+#themeBtn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:50%;width:33px;height:33px;cursor:pointer}
+#themeBtn:hover{background:var(--hover)}
+/* 核心模式图例 */
+.legend{display:none;gap:14px;flex-wrap:wrap;align-items:center;margin:0 0 12px;padding:9px 14px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(100deg,color-mix(in srgb,var(--gold) 8%,var(--panel)),var(--panel));font-size:12.5px;color:var(--muted)}
+.legend.on{display:flex}
+.legend b{color:var(--ink);font-weight:650}
+.legend .k{display:inline-flex;align-items:center;gap:5px}
+.legend .star{color:var(--gold)}
+.legend .ring{width:11px;height:11px;border-radius:50%;border:2px solid var(--new);display:inline-block}
 main{max-width:1280px;margin:0 auto;padding:16px 20px 60px}
 .view{display:none}.view.on{display:block}
 /* 树 */
-#treeWrap{position:relative;border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+#treeWrap{position:relative;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
+  background:radial-gradient(80% 80% at 50% 42%,color-mix(in srgb,var(--accent) 6%,var(--panel)),var(--panel))}
 #treeSvg{display:block;width:100%;height:calc(100vh - 170px);min-height:480px;cursor:grab}
 #treeHint{position:absolute;left:14px;top:12px;font-size:12px;color:var(--muted);pointer-events:none;max-width:60%}
 #treeCtrls{position:absolute;right:14px;top:12px;display:flex;gap:8px}
@@ -57,7 +83,7 @@ tr:hover td{background:var(--hover)}
 .tTitle:hover{color:var(--accent)}
 .tSub{font-size:12px;color:var(--muted)}
 .bchip{display:inline-block;font-size:11px;border-radius:9px;padding:1px 7px;margin:1px 2px 1px 0;color:#fff;white-space:nowrap}
-.new{display:inline-block;background:#c0392b;color:#fff;font-size:10.5px;border-radius:8px;padding:1px 6px;margin-left:5px;vertical-align:2px}
+.new{display:inline-block;background:var(--new);color:#fff;font-size:10.5px;border-radius:8px;padding:1px 6px;margin-left:5px;vertical-align:2px}
 .statusBtn{cursor:pointer;border:1px solid var(--line);border-radius:12px;font-size:11.5px;padding:2px 9px;background:var(--chip);color:var(--ink);white-space:nowrap}
 .pager{display:flex;gap:10px;align-items:center;justify-content:center;padding:14px;color:var(--muted);font-size:13px}
 /* 本周新增卡片 */
@@ -82,12 +108,34 @@ tr:hover td{background:var(--hover)}
 .miniList div{padding:5px 0;border-bottom:1px dashed var(--line);font-size:13px;cursor:pointer}
 .miniList div:hover{color:var(--accent)}
 footer{max-width:1280px;margin:0 auto;padding:10px 20px 30px;color:var(--muted);font-size:12px}
-@media (max-width:640px){ header h1{font-size:16px} .tabs button{padding:5px 10px;font-size:13px} }
+/* 核心模式：入选理由、排名徽章、表格标记 */
+.rzWrap{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 4px}
+.rzchip{display:inline-flex;align-items:center;font-size:12px;border-radius:9px;padding:2px 9px;
+  background:color-mix(in srgb,var(--gold) 14%,var(--panel));color:var(--ink);border:1px solid color-mix(in srgb,var(--gold) 34%,var(--line))}
+.rzchip.star{background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 30%,var(--panel)),var(--panel));font-weight:650}
+.rzchip.newr{background:color-mix(in srgb,var(--new) 12%,var(--panel));border-color:color-mix(in srgb,var(--new) 34%,var(--line))}
+.coreBox{border:1px solid color-mix(in srgb,var(--gold) 30%,var(--line));border-radius:12px;padding:11px 13px;margin:12px 0;
+  background:linear-gradient(120deg,color-mix(in srgb,var(--gold) 8%,var(--panel)),var(--panel))}
+.coreBox .rk{font-size:12.5px;color:var(--muted);margin-bottom:7px}
+.coreBox .rk b{color:var(--accent);font-size:14px}
+.tStar{color:var(--gold);margin-left:4px}
+.tRank{display:inline-block;font-size:10.5px;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:0 5px;margin-left:5px;vertical-align:1px}
+.cardBadge{display:inline-block;font-size:10.5px;border-radius:8px;padding:1px 7px;margin-left:6px;vertical-align:2px;
+  background:linear-gradient(135deg,var(--gold),var(--accent-soft));color:#241a06;font-weight:650}
+/* 打磨：抽屉与摘要 */
+#drawer{padding:24px 26px}
+#drawer .abs{line-height:1.6}
+.secT{letter-spacing:.2px}
+.tableBox,.card{box-shadow:var(--shadow)}
+.card{transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translateY(-2px)}
+@media (max-width:640px){ header h1{font-size:16px} .tabs button{padding:5px 10px;font-size:13px} .legend{font-size:11.5px;gap:10px} }
 </style>
 </head>
 <body>
 <header>
   <div><h1>🌳 创新经济学文献树</h1><div class="sub" id="metaLine">加载中…</div></div>
+  <button id="coreBtn" title="只看精选核心文献（约 300 篇）"><span class="dot"></span>核心 300</button>
   <div class="tabs">
     <button data-v="tree" class="on">🌳 文献树</button>
     <button data-v="table">📋 文献库</button>
@@ -96,6 +144,12 @@ footer{max-width:1280px;margin:0 auto;padding:10px 20px 30px;color:var(--muted);
   <button id="themeBtn" title="切换明暗">◐</button>
 </header>
 <main>
+  <div class="legend" id="coreLegend">
+    <span><b>核心模式</b>·约 300 篇精选</span>
+    <span class="k"><span class="star">★</span> 镇树之宝（被多篇综述反复引用）</span>
+    <span class="k"><span class="ring"></span> 新锐（近 5 年潜力新作）</span>
+    <span class="k">点开任一篇看「入选理由」</span>
+  </div>
   <section id="v-tree" class="view on">
     <div id="treeWrap">
       <div id="treeHint">粗弧线 = 分支间引用关联（悬停看数量）· 点分支展开高引论文 · 悬停树叶高亮它的引用连线 · 滚轮缩放 · 拖动平移 · 点空白收起</div>
@@ -144,7 +198,12 @@ footer{max-width:1280px;margin:0 auto;padding:10px 20px 30px;color:var(--muted);
 /* ============ 全局状态 ============ */
 let P=[], BR=[], META=null, ABS=null, absLoading=null;
 let BYID={}, EDGES=null, OUT={}, INN={}, FLOWS=null, showFlows=true;
+let coreMode=false;
 const BRN={}, BRC={};   // code→name, code→color
+// 15 支分类色板（感知均匀、明暗两主题皆可读；替代原 even-hue HSL）
+const PALETTE=["#c1583b","#d98c30","#b59a2d","#6f9e3f","#2f9e6f",
+               "#2f9ba8","#3f7cc0","#5b62c4","#8a5bc7","#b45bb0",
+               "#c85f8e","#9c6b53","#6b8ea3","#7d8a4e","#a34e5a"];
 const marks=JSON.parse(localStorage.getItem("iltMarks")||"{}");
 const ST_CYCLE=["none","read","scan","arch"];
 const ST_LABEL={none:"未读",read:"★ 要精读",scan:"✓ 扫过",arch:"⊘ 存档"};
@@ -163,6 +222,21 @@ themeBtn.onclick=()=>{
   drawTree();
 };
 
+/* ============ 核心模式 ============ */
+function updateMeta(){
+  const d=(META.built||"").slice(0,10), ct=META.core_total||0;
+  $("#metaLine").textContent=coreMode
+    ? `✨ 核心模式 · 精选 ${ct} 篇（全库 ${META.total}）· 构建 ${d}`
+    : `共 ${META.total} 篇 · 内含精选核心 ${ct} 篇 · 构建 ${d}`;
+}
+$("#coreBtn").onclick=()=>{
+  coreMode=!coreMode;
+  $("#coreBtn").classList.toggle("on",coreMode);
+  $("#coreLegend").classList.toggle("on",coreMode);
+  selBranch=null; page=1;
+  updateMeta(); drawTree(); renderTable();
+};
+
 /* ============ 数据加载 ============ */
 Promise.all([
   fetch("data/core.json").then(r=>r.json()),
@@ -171,9 +245,8 @@ Promise.all([
 ]).then(([core,br,meta])=>{
   P=core; BR=br; META=meta;
   BYID=Object.fromEntries(P.map(p=>[p.id,p]));
-  BR.forEach((b,i)=>{BRN[b.code]=b.name; BRC[b.code]=`hsl(${Math.round(i*360/BR.length)} 42% 46%)`;});
-  const d=(meta.built||"").slice(0,10);
-  $("#metaLine").textContent=`共 ${meta.total} 篇 · 数据构建 ${d} · A线补捞完成（有条件验收版）`;
+  BR.forEach((b,i)=>{BRN[b.code]=b.name; BRC[b.code]=PALETTE[i%PALETTE.length];});
+  updateMeta();
   initTable(); drawTree(); renderWeek(); loadEdges();
 });
 function loadAbs(){
@@ -229,7 +302,7 @@ function mutedColor(){return getComputedStyle(document.documentElement).getPrope
 function drawTree(){
   svg.innerHTML="";
   svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
-  const pool=P.filter(p=>!p.sup);
+  const pool=P.filter(p=>!p.sup&&(!coreMode||p.co));
   const counts={}; BR.forEach(b=>counts[b.code]=0);
   pool.forEach(p=>p.b.forEach(c=>{if(c in counts)counts[c]++;}));
   const n=BR.length, ink=inkColor(), muted=mutedColor(), R=170;
@@ -272,7 +345,9 @@ function drawTree(){
   // —— 展开的树叶 + 叶间引用连线（连线经过所在枝节点）——
   if(selBranch&&pos[selBranch]){
     const {ang,x,y}=pos[selBranch];
-    const leaves=pool.filter(p=>p.b.includes(selBranch)).sort((a,c)=>c.c-a.c).slice(0,leafShown);
+    const src=pool.filter(p=>p.b.includes(selBranch));
+    src.sort(coreMode?(a,c)=>(a.cr||9999)-(c.cr||9999):(a,c)=>c.c-a.c);  // 核心模式按精选排名，否则按引用
+    const leaves=src.slice(0,leafShown);
     const span=Math.min(2.4,.5+leaves.length*.075);
     const lpos={};
     leaves.forEach((p,j)=>{
@@ -296,6 +371,8 @@ function drawTree(){
       el("line",{x1:x,y1:y,x2:px,y2:py,stroke:BRC[selBranch],"stroke-width":.7,opacity:.3},lg);
       const r=3.5+Math.min(9,Math.sqrt(p.c)/6);
       el("circle",{cx:px,cy:py,r:r,fill:BRC[selBranch],opacity:.88,stroke:marks[p.id]==="read"?"#c0392b":"none","stroke-width":2.5},lg);
+      if(coreMode&&p.cn) el("circle",{cx:px,cy:py,r:r+3,fill:"none",stroke:"var(--new)","stroke-width":1.3,"stroke-dasharray":"2 2",opacity:.9},lg);
+      if(coreMode&&p.cst){const st=el("text",{x:px,y:py-r-3,"text-anchor":"middle","font-size":11,fill:"var(--gold)"},lg);st.textContent="★";}
       const short=(p.tz||p.ti).slice(0,14)+((p.tz||p.ti).length>14?"…":"");
       const lt=el("text",{x:px+(Math.cos(la)>0?r+3:-(r+3)),y:py+4,"font-size":9.5,fill:ink,opacity:.85,"text-anchor":Math.cos(la)>0?"start":"end"},lg);
       lt.textContent=short;
@@ -366,6 +443,7 @@ function filtered(){
   const j=$("#jSel").value, st=$("#stSel").value;
   const newOnly=$("#newOnly").checked, showSup=$("#showSup").checked;
   let r=P.filter(p=>{
+    if(coreMode&&!p.co)return false;
     if(!showSup&&p.sup)return false;
     if(fBranch==="__unc"){if(p.b.length)return false;}
     else if(fBranch&&!p.b.includes(fBranch))return false;
@@ -381,7 +459,8 @@ function filtered(){
     return true;
   });
   const k=$("#sortSel").value;
-  r.sort((a,b)=>k==="c"?b.c-a.c:k==="fs"?String(b.fs).localeCompare(String(a.fs)):(b.y||0)-(a.y||0));
+  r.sort((a,b)=>coreMode?(a.cr||9999)-(b.cr||9999)
+    :k==="c"?b.c-a.c:k==="fs"?String(b.fs).localeCompare(String(a.fs)):(b.y||0)-(a.y||0));
   return r;
 }
 function renderTable(){
@@ -390,7 +469,7 @@ function renderTable(){
   if(page>pages)page=pages;
   const rows=r.slice((page-1)*PGSZ,page*PGSZ).map(p=>`<tr>
     <td>${statusBtn(p)}</td>
-    <td><div class="tTitle" onclick="openDetail('${p.id}')">${esc(p.tz||p.ti)}${isNew(p)?'<span class="new">NEW</span>':""}</div>
+    <td><div class="tTitle" onclick="openDetail('${p.id}')">${esc(p.tz||p.ti)}${p.cst?'<span class="tStar">★</span>':""}${coreMode&&p.cr?`<span class="tRank">#${p.cr}</span>`:""}${isNew(p)?'<span class="new">NEW</span>':""}</div>
         ${p.tz?`<div class="tSub">${esc(p.ti)}</div>`:""}</td>
     <td class="tSub">${esc(p.au.slice(0,3).join("; "))}${p.au.length>3?" 等":""}</td>
     <td>${p.y||""}</td><td>${esc(p.j)}</td><td>${bchips(p)}</td><td>${p.c}</td></tr>`).join("");
@@ -409,7 +488,7 @@ function renderWeek(){
   box.innerHTML=lu.new_ids.map(id=>{
     const p=byId[id]; if(!p)return "";
     const cc=p.cc?`<div class="ccBox">${["rq","identification","data","findings","mechanism"].filter(k=>p.cc[k]).map(k=>`<div><b>${{rq:"问题",identification:"识别",data:"数据",findings:"发现",mechanism:"机制"}[k]}</b>：${esc(p.cc[k])}</div>`).join("")}</div>`:`<div class="tSub" style="margin-top:6px">粗读卡待每周会话生成</div>`;
-    return `<div class="card"><h3 onclick="openDetail('${p.id}')">${esc(p.tz||p.ti)}</h3>
+    return `<div class="card"><h3 onclick="openDetail('${p.id}')">${esc(p.tz||p.ti)}${p.co?`<span class="cardBadge">${p.cst?"★核心":"核心"}</span>`:""}</h3>
       <div class="tSub">${esc(authorsOf(p))}</div>
       <div class="tSub">${esc(p.j)} · ${p.y} · ${bchips(p)}</div>${cc}
       <div style="margin-top:8px">${statusBtn(p)}</div></div>`;
@@ -420,6 +499,11 @@ function renderWeek(){
 window.openDetail=id=>{
   const p=P.find(x=>x.id===id); if(!p)return;
   const doiLink=p.doi?`<a href="https://doi.org/${p.doi}" target="_blank">DOI ↗</a> · `:"";
+  const coreHtml=p.co?`<div class="coreBox">
+      <div class="rk">⭐ 精选核心 · 第 <b>${p.cr}</b> 名（共 ${META.core_total||300} 篇）</div>
+      <div class="rzWrap">${(p.crs||[]).map(rz=>{
+        const cls=rz.startsWith("★")?"rzchip star":rz.startsWith("新锐")?"rzchip newr":"rzchip";
+        return `<span class="${cls}">${esc(rz)}</span>`;}).join("")}</div></div>`:"";
   const others=P.filter(x=>x.id!==id&&!x.sup&&x.au.some(a=>p.au.includes(a)))
     .sort((a,b)=>(b.y||0)-(a.y||0)).slice(0,10);
   const nOut=(OUT[id]||[]).length, nIn=(INN[id]||[]).length;
@@ -435,6 +519,7 @@ window.openDetail=id=>{
     <div class="meta">${esc(p.j)} · ${p.y||"?"} · 被引 ${p.c}${p.sup?" · ⚠ 此 WP 已有发表版":""}</div>
     <div>${bchips(p)} ${p.tg.map(t=>`<span class="bchip" style="background:#5b6470">#${t}</span>`).join("")}</div>
     <div style="margin:10px 0">${statusBtn(p)} &nbsp; ${doiLink}<a href="https://openalex.org/${p.id}" target="_blank">OpenAlex ↗</a></div>
+    ${coreHtml}
     ${cc}
     <div class="secT">📄 摘要</div><div class="abs" id="absBox">加载中…</div>
     <div class="secT">⬆️ 它站在谁的肩上（引用库内 ${nOut} 篇${nOut>10?"，示引用量前 10":""}）</div>
