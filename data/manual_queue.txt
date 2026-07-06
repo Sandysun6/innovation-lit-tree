@@ -1,0 +1,8 @@
+# 手动补漏队列：每行一条（题目或 doi:10.xxx），每周 Actions 自动处理，成功后移除
+Robots and Jobs: Evidence from US Labor Markets
+How Research Affects Policy: Experimental Evidence from 2,150 Brazilian Municipalities
+The Long-Term Effects of Management and Technology Transfers
+Immigration and the Diffusion of Technology: The Huguenot Diaspora in Prussia
+The Gravity of Knowledge
+Social Ties and Favoritism in Chinese Science
+Appropriate Technology and Balanced Growth

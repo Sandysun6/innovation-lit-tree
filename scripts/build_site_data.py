@@ -28,8 +28,13 @@ for p in papers:
 updates = sorted((ROOT / "data/updates").glob("*.json")) if (ROOT / "data/updates").exists() else []
 latest = json.loads(updates[-1].read_text()) if updates else None
 
+# 库内引用边（树叶连线 & 分支间引用流的数据）
+ids = {p["id"] for p in papers}
+edges = [[p["id"], d] for p in papers for d in p.get("refs_in_library", []) if d in ids]
+
 (OUT / "core.json").write_text(json.dumps(core, ensure_ascii=False, separators=(",", ":")))
 (OUT / "abstracts.json").write_text(json.dumps(abstracts, ensure_ascii=False, separators=(",", ":")))
+(OUT / "edges.json").write_text(json.dumps(edges, ensure_ascii=False, separators=(",", ":")))
 for name in ["branches.json", "tags.json", "watchlist.json"]:
     (OUT / name).write_text((ROOT / "data" / name).read_text())
 (OUT / "meta.json").write_text(json.dumps({

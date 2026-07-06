@@ -33,8 +33,9 @@ main{max-width:1280px;margin:0 auto;padding:16px 20px 60px}
 /* 树 */
 #treeWrap{position:relative;border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
 #treeSvg{display:block;width:100%;height:calc(100vh - 170px);min-height:480px;cursor:grab}
-#treeHint{position:absolute;left:14px;top:12px;font-size:12px;color:var(--muted);pointer-events:none}
-#treeMore{position:absolute;right:14px;top:12px;display:none}
+#treeHint{position:absolute;left:14px;top:12px;font-size:12px;color:var(--muted);pointer-events:none;max-width:60%}
+#treeCtrls{position:absolute;right:14px;top:12px;display:flex;gap:8px}
+#treeMore{display:none}
 .btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px}
 .btn:hover{background:var(--hover)}
 #tooltip{position:fixed;display:none;max-width:340px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12.5px;box-shadow:var(--shadow);z-index:60;pointer-events:none}
@@ -97,8 +98,11 @@ footer{max-width:1280px;margin:0 auto;padding:10px 20px 30px;color:var(--muted);
 <main>
   <section id="v-tree" class="view on">
     <div id="treeWrap">
-      <div id="treeHint">点击分支展开高引论文 · 点击树叶看详情 · 滚轮缩放 · 拖动平移 · 点空白处收起</div>
-      <button id="treeMore" class="btn">展开更多 +20</button>
+      <div id="treeHint">粗弧线 = 分支间引用关联（悬停看数量）· 点分支展开高引论文 · 悬停树叶高亮它的引用连线 · 滚轮缩放 · 拖动平移 · 点空白收起</div>
+      <div id="treeCtrls">
+        <button id="flowBtn" class="btn">🔗 分支关联：开</button>
+        <button id="treeMore" class="btn">展开更多 +20</button>
+      </div>
       <svg id="treeSvg" viewBox="-520 -520 1040 1040"></svg>
     </div>
   </section>
@@ -139,6 +143,7 @@ footer{max-width:1280px;margin:0 auto;padding:10px 20px 30px;color:var(--muted);
 "use strict";
 /* ============ 全局状态 ============ */
 let P=[], BR=[], META=null, ABS=null, absLoading=null;
+let BYID={}, EDGES=null, OUT={}, INN={}, FLOWS=null, showFlows=true;
 const BRN={}, BRC={};   // code→name, code→color
 const marks=JSON.parse(localStorage.getItem("iltMarks")||"{}");
 const ST_CYCLE=["none","read","scan","arch"];
@@ -165,15 +170,30 @@ Promise.all([
   fetch("data/meta.json").then(r=>r.json()),
 ]).then(([core,br,meta])=>{
   P=core; BR=br; META=meta;
+  BYID=Object.fromEntries(P.map(p=>[p.id,p]));
   BR.forEach((b,i)=>{BRN[b.code]=b.name; BRC[b.code]=`hsl(${Math.round(i*360/BR.length)} 42% 46%)`;});
   const d=(meta.built||"").slice(0,10);
   $("#metaLine").textContent=`共 ${meta.total} 篇 · 数据构建 ${d} · A线补捞完成（有条件验收版）`;
-  initTable(); drawTree(); renderWeek();
+  initTable(); drawTree(); renderWeek(); loadEdges();
 });
 function loadAbs(){
   if(ABS) return Promise.resolve(ABS);
   if(!absLoading) absLoading=fetch("data/abstracts.json").then(r=>r.json()).then(a=>(ABS=a,a));
   return absLoading;
+}
+function loadEdges(){
+  fetch("data/edges.json").then(r=>r.json()).then(es=>{
+    EDGES=es; OUT={}; INN={}; FLOWS={};
+    es.forEach(([s,d])=>{
+      (OUT[s]=OUT[s]||[]).push(d); (INN[d]=INN[d]||[]).push(s);
+      const bs=(BYID[s]||{}).b||[], bd=(BYID[d]||{}).b||[];
+      if(!bs.length||!bd.length)return;
+      const w=1/(bs.length*bd.length);
+      bs.forEach(a=>bd.forEach(b=>{ if(a===b)return;
+        const k=a<b?a+"-"+b:b+"-"+a; FLOWS[k]=(FLOWS[k]||0)+w; }));
+    });
+    drawTree();
+  }).catch(()=>{});
 }
 
 /* ============ 工具 ============ */
@@ -212,17 +232,34 @@ function drawTree(){
   const pool=P.filter(p=>!p.sup);
   const counts={}; BR.forEach(b=>counts[b.code]=0);
   pool.forEach(p=>p.b.forEach(c=>{if(c in counts)counts[c]++;}));
-  const n=BR.length, ink=inkColor(), muted=mutedColor();
-  // 中心
+  const n=BR.length, ink=inkColor(), muted=mutedColor(), R=170;
+  const pos={};
+  BR.forEach((b,i)=>{const ang=i/n*2*Math.PI-Math.PI/2;
+    pos[b.code]={ang,x:R*Math.cos(ang),y:R*Math.sin(ang)};});
+  // —— 分支间引用流（最底层，弧线穿过树干：上层枝丫间的关联）——
+  if(!selBranch&&showFlows&&FLOWS){
+    const vals=Object.values(FLOWS), maxW=Math.max(1,...vals);
+    Object.entries(FLOWS).sort((a,b)=>a[1]-b[1]).forEach(([k,w])=>{
+      if(w<maxW*0.04)return;   // 只画有分量的关联，避免糊成一团
+      const [a,b]=k.split("-"), A=pos[a], B=pos[b]; if(!A||!B)return;
+      const pth=el("path",{d:`M${A.x} ${A.y} Q 0 0 ${B.x} ${B.y}`,fill:"none",
+        stroke:BRC[a],"stroke-width":(0.8+7*w/maxW).toFixed(2),opacity:.3,
+        "stroke-linecap":"round",cursor:"pointer"});
+      pth.addEventListener("mousemove",ev=>{pth.setAttribute("opacity",.8);
+        showTip(ev,`<b>${BRN[a]} ⇄ ${BRN[b]}</b><br>库内引用关联 ≈ ${Math.round(w)} 条<br><span style="opacity:.7">弧线粗细 = 两支文献互引密度</span>`);});
+      pth.addEventListener("mouseleave",()=>{pth.setAttribute("opacity",.3);hideTip();});
+    });
+  }
+  // —— 中心 ——
   el("circle",{cx:0,cy:0,r:46,fill:"var(--accent)",opacity:.92});
   const ct=el("text",{x:0,y:-4,"text-anchor":"middle","font-size":15,fill:"#fff","font-weight":"700"});ct.textContent="创新经济学";
   const ct2=el("text",{x:0,y:14,"text-anchor":"middle","font-size":10.5,fill:"#fff",opacity:.9});ct2.textContent=pool.length+" 篇";
-  BR.forEach((b,i)=>{
-    const ang=i/n*2*Math.PI-Math.PI/2;
+  // —— 15 个一级枝 ——
+  BR.forEach(b=>{
+    const {ang,x,y}=pos[b.code];
     const dim=selBranch&&selBranch!==b.code;
-    const R=170, x=R*Math.cos(ang), y=R*Math.sin(ang);
     const g=el("g",{opacity:dim?.14:1,cursor:"pointer"});
-    el("line",{x1:46*Math.cos(ang),y1:46*Math.sin(ang),x2:x,y2:y,stroke:BRC[b.code],"stroke-width":2.5+counts[b.code]/220,opacity:.75},g);
+    el("path",{d:`M${46*Math.cos(ang)} ${46*Math.sin(ang)} Q${x*0.55} ${y*0.55} ${x} ${y}`,fill:"none",stroke:BRC[b.code],"stroke-width":2.5+counts[b.code]/220,opacity:.75},g);
     el("circle",{cx:x,cy:y,r:13+Math.sqrt(counts[b.code])/2,fill:BRC[b.code]},g);
     const lr=R+34+Math.sqrt(counts[b.code])/2, lx=lr*Math.cos(ang), ly=lr*Math.sin(ang);
     const anchor=Math.cos(ang)>.35?"start":(Math.cos(ang)<-.35?"end":"middle");
@@ -231,30 +268,54 @@ function drawTree(){
     const t2=el("text",{x:lx,y:ly+15,"text-anchor":anchor,"font-size":10.5,fill:muted},g);
     t2.textContent=counts[b.code]+" 篇";
     g.addEventListener("click",ev=>{ev.stopPropagation();selBranch=selBranch===b.code?null:b.code;leafShown=20;drawTree();});
-    // 展开树叶
-    if(selBranch===b.code){
-      const leaves=pool.filter(p=>p.b.includes(b.code)).sort((a,c)=>c.c-a.c).slice(0,leafShown);
-      const span=Math.min(2.4,.5+leaves.length*.075);
-      leaves.forEach((p,j)=>{
-        const ring=Math.floor(j/12), idx=j%12, per=Math.min(12,leaves.length-ring*12);
-        const la=ang-span/2+span*(idx+.5)/per, lrr=265+ring*72;
-        const px=lrr*Math.cos(la), py=lrr*Math.sin(la);
-        const lg=el("g",{cursor:"pointer"});
-        el("line",{x1:x,y1:y,x2:px,y2:py,stroke:BRC[b.code],"stroke-width":.7,opacity:.35},lg);
-        const r=3.5+Math.min(9,Math.sqrt(p.c)/6);
-        el("circle",{cx:px,cy:py,r:r,fill:BRC[b.code],opacity:.88,stroke:marks[p.id]==="read"?"#c0392b":"none","stroke-width":2.5},lg);
-        const short=(p.tz||p.ti).slice(0,14)+((p.tz||p.ti).length>14?"…":"");
-        const lt=el("text",{x:px+(Math.cos(la)>0?r+3:-(r+3)),y:py+4,"font-size":9.5,fill:ink,opacity:.85,"text-anchor":Math.cos(la)>0?"start":"end"},lg);
-        lt.textContent=short;
-        lg.addEventListener("click",ev=>{ev.stopPropagation();openDetail(p.id);});
-        lg.addEventListener("mousemove",ev=>showTip(ev,`<b>${esc(p.tz||p.ti)}</b><br>${esc(authorsOf(p))}<br>${p.j} ${p.y} · 被引 ${p.c}`));
-        lg.addEventListener("mouseleave",hideTip);
-      });
-    }
   });
-  $("#treeMore").style.display=selBranch?"block":"none";
+  // —— 展开的树叶 + 叶间引用连线（连线经过所在枝节点）——
+  if(selBranch&&pos[selBranch]){
+    const {ang,x,y}=pos[selBranch];
+    const leaves=pool.filter(p=>p.b.includes(selBranch)).sort((a,c)=>c.c-a.c).slice(0,leafShown);
+    const span=Math.min(2.4,.5+leaves.length*.075);
+    const lpos={};
+    leaves.forEach((p,j)=>{
+      const ring=Math.floor(j/12), idx=j%12, per=Math.min(12,leaves.length-ring*12);
+      const la=ang-span/2+span*(idx+.5)/per, lrr=265+ring*72;
+      lpos[p.id]={x:lrr*Math.cos(la),y:lrr*Math.sin(la),la};
+    });
+    const edgeEls={};
+    if(EDGES){
+      leaves.forEach(p=>{(OUT[p.id]||[]).forEach(d=>{
+        if(!lpos[d])return;
+        const A=lpos[p.id],B=lpos[d];
+        const pe=el("path",{d:`M${A.x} ${A.y} Q${x} ${y} ${B.x} ${B.y}`,fill:"none",stroke:ink,"stroke-width":.8,opacity:.15});
+        (edgeEls[p.id]=edgeEls[p.id]||[]).push(pe);
+        (edgeEls[d]=edgeEls[d]||[]).push(pe);
+      });});
+    }
+    leaves.forEach(p=>{
+      const {x:px,y:py,la}=lpos[p.id];
+      const lg=el("g",{cursor:"pointer"});
+      el("line",{x1:x,y1:y,x2:px,y2:py,stroke:BRC[selBranch],"stroke-width":.7,opacity:.3},lg);
+      const r=3.5+Math.min(9,Math.sqrt(p.c)/6);
+      el("circle",{cx:px,cy:py,r:r,fill:BRC[selBranch],opacity:.88,stroke:marks[p.id]==="read"?"#c0392b":"none","stroke-width":2.5},lg);
+      const short=(p.tz||p.ti).slice(0,14)+((p.tz||p.ti).length>14?"…":"");
+      const lt=el("text",{x:px+(Math.cos(la)>0?r+3:-(r+3)),y:py+4,"font-size":9.5,fill:ink,opacity:.85,"text-anchor":Math.cos(la)>0?"start":"end"},lg);
+      lt.textContent=short;
+      lg.addEventListener("click",ev=>{ev.stopPropagation();openDetail(p.id);});
+      lg.addEventListener("mousemove",ev=>{
+        (edgeEls[p.id]||[]).forEach(e=>{e.setAttribute("opacity",.75);e.setAttribute("stroke",BRC[selBranch]);e.setAttribute("stroke-width",1.6);});
+        const no=(OUT[p.id]||[]).length, ni=(INN[p.id]||[]).length;
+        showTip(ev,`<b>${esc(p.tz||p.ti)}</b><br>${esc(authorsOf(p))}<br>${p.j} ${p.y} · 被引 ${p.c}${EDGES?`<br>引用库内 ${no} 篇 · 被库内 ${ni} 篇引用`:""}`);
+      });
+      lg.addEventListener("mouseleave",()=>{
+        (edgeEls[p.id]||[]).forEach(e=>{e.setAttribute("opacity",.15);e.setAttribute("stroke",ink);e.setAttribute("stroke-width",.8);});
+        hideTip();
+      });
+    });
+  }
+  $("#treeMore").style.display=selBranch?"inline-block":"none";
 }
 $("#treeMore").onclick=()=>{leafShown+=20;drawTree();};
+$("#flowBtn").onclick=()=>{showFlows=!showFlows;
+  $("#flowBtn").textContent=`🔗 分支关联：${showFlows?"开":"关"}`;drawTree();};
 svg.addEventListener("click",()=>{if(selBranch){selBranch=null;drawTree();}});
 // 缩放 & 平移
 svg.addEventListener("wheel",ev=>{
@@ -361,6 +422,10 @@ window.openDetail=id=>{
   const doiLink=p.doi?`<a href="https://doi.org/${p.doi}" target="_blank">DOI ↗</a> · `:"";
   const others=P.filter(x=>x.id!==id&&!x.sup&&x.au.some(a=>p.au.includes(a)))
     .sort((a,b)=>(b.y||0)-(a.y||0)).slice(0,10);
+  const nOut=(OUT[id]||[]).length, nIn=(INN[id]||[]).length;
+  const outL=(OUT[id]||[]).map(i=>BYID[i]).filter(Boolean).sort((a,b)=>b.c-a.c).slice(0,10);
+  const inL=(INN[id]||[]).map(i=>BYID[i]).filter(Boolean).sort((a,b)=>(b.y||0)-(a.y||0)).slice(0,10);
+  const mini=arr=>arr.map(o=>`<div onclick="openDetail('${o.id}')">${esc(o.tz||o.ti)} <span class="tSub">(${o.j} ${o.y})</span></div>`).join("")||'<div class="tSub">暂无</div>';
   const cc=p.cc?`<div class="secT">📇 粗读卡</div><div class="ccBox">${["rq","identification","data","findings","mechanism","tree_note"].filter(k=>p.cc[k]).map(k=>`<div><b>${{rq:"研究问题",identification:"识别策略",data:"数据",findings:"主要发现",mechanism:"机制",tree_note:"树上站位"}[k]}</b>：${esc(p.cc[k])}</div>`).join("")}</div>`:"";
   $("#drawer").innerHTML=`
     <div style="display:flex;justify-content:space-between;gap:10px">
@@ -372,8 +437,12 @@ window.openDetail=id=>{
     <div style="margin:10px 0">${statusBtn(p)} &nbsp; ${doiLink}<a href="https://openalex.org/${p.id}" target="_blank">OpenAlex ↗</a></div>
     ${cc}
     <div class="secT">📄 摘要</div><div class="abs" id="absBox">加载中…</div>
+    <div class="secT">⬆️ 它站在谁的肩上（引用库内 ${nOut} 篇${nOut>10?"，示引用量前 10":""}）</div>
+    <div class="miniList">${mini(outL)}</div>
+    <div class="secT">⬇️ 谁站在它的肩上（被库内 ${nIn} 篇引用${nIn>10?"，示最新 10 篇":""}）</div>
+    <div class="miniList">${mini(inL)}</div>
     <div class="secT">👤 作者研究线（库内其他论文）</div>
-    <div class="miniList">${others.map(o=>`<div onclick="openDetail('${o.id}')">${esc(o.tz||o.ti)} <span class="tSub">(${o.j} ${o.y})</span></div>`).join("")||'<div class="tSub">暂无</div>'}</div>`;
+    <div class="miniList">${mini(others)}</div>`;
   $("#drawerBg").style.display="block";
   $("#drawer").classList.add("open");
   loadAbs().then(a=>{const b=$("#absBox");if(b)b.textContent=a[id]||"（暂无摘要——补捞后自动补齐）";});
