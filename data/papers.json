@@ -335930,5 +335930,79 @@
   "exists_in_zotero": "[新增]",
   "tier": null,
   "coarse_card": null
+ },
+ {
+  "id": "W7204534117",
+  "doi": "10.1257/aer.20241087",
+  "title_en": "Manipulation-Robust Prediction",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Daniel Björkegren",
+    "oa_id": "A5082793758"
+   },
+   {
+    "name": "Blumenstock Joshua E.",
+    "oa_id": "A5061893289"
+   },
+   {
+    "name": "Samsun Knight",
+    "oa_id": "A5148549944"
+   }
+  ],
+  "year": 2026,
+  "date": "2026-08-28",
+  "journal": "AER",
+  "type": "article",
+  "cited_by_count": 0,
+  "abstract_en": "An increasing number of decisions are guided by machine learning algorithms. But when consequential decisions are encoded in algorithms, individuals may strategically alter their behavior to achieve desired outcomes. This paper develops an empirical approach that adjusts decision algorithms to anticipate manipulation. By explicitly modeling incentives to manipulate, our approach produces decision rules that are stable under manipulation, even when the rules are fully transparent. We stress-test this approach through a large field experiment in Kenya. When implemented, linear strategy-robust decision rules outperform standard linear models such as LASSO. (JEL C45, C93, D12, D91, G51, O12, O16)",
+  "abstract_src": "openalex",
+  "branches": [],
+  "tags": [
+   "AI"
+  ],
+  "source_channels": [
+   "kw:machine learning"
+  ],
+  "first_seen": "2026-08-31",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
+ },
+ {
+  "id": "W7130692893",
+  "doi": "10.1257/aer.20240756",
+  "title_en": "Defying Distance? The Provision of Medical Services in the Digital Age",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Amanda Dahlstrand",
+    "oa_id": "A5024717943"
+   }
+  ],
+  "year": 2026,
+  "date": "2026-08-28",
+  "journal": "AER",
+  "type": "article",
+  "cited_by_count": 0,
+  "abstract_en": "Digital platforms reduce geographic frictions, enabling better matching between service providers and users. I quantify reallocation gains in Swedish online health care, using nationwide time-conditional random assignment between patients and physicians. Matching high-risk patients with doctors effective at reducing Emergency Room visits lowers such visits by 4.4 percent (SE 1.3); reallocations also reduce Counter-Guideline antibiotics by 3.1 percent (1.4). I find limited trade-offs in matching; horizontal differentiation among doctors and varied patient needs allow improvement in multiple outcomes simultaneously. Efficiency-enhancing reallocations also affect equity. The findings highlight the potential for care reorganization aligning provider heterogeneity with patient needs when geographic constraints are lifted. (JEL C78, H51, I11, I13, I14, I18)",
+  "abstract_src": "openalex",
+  "branches": [],
+  "tags": [],
+  "source_channels": [
+   "kw:digital platform"
+  ],
+  "first_seen": "2026-08-31",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
  }
 ]
