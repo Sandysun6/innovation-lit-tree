@@ -336004,5 +336004,47 @@
   "exists_in_zotero": "[新增]",
   "tier": null,
   "coarse_card": null
+ },
+ {
+  "id": "W7204753479",
+  "doi": "10.1086/743898",
+  "title_en": "The Long Run Economic Effects of Medical Innovation and the Role of Opportunities",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Sonia Bhalotra",
+    "oa_id": "A5121918051"
+   },
+   {
+    "name": "Damian Clarke",
+    "oa_id": "A5148812311"
+   },
+   {
+    "name": "Atheendar Venkataramani",
+    "oa_id": "A5140227941"
+   }
+  ],
+  "year": 2026,
+  "date": "2026-08-31",
+  "journal": "JPE",
+  "type": "article",
+  "cited_by_count": 0,
+  "abstract_en": null,
+  "abstract_src": null,
+  "branches": [
+   "15"
+  ],
+  "tags": [],
+  "source_channels": [
+   "kw:innovation"
+  ],
+  "first_seen": "2026-09-07",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
  }
 ]
