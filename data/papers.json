@@ -336046,5 +336046,229 @@
   "exists_in_zotero": "[新增]",
   "tier": null,
   "coarse_card": null
+ },
+ {
+  "id": "W3021644002",
+  "doi": "10.1086/705716",
+  "title_en": "Robots and Jobs: Evidence from US Labor Markets",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Daron Acemoğlu",
+    "oa_id": "A5012301204"
+   },
+   {
+    "name": "Pascual Restrepo",
+    "oa_id": "A5011062401"
+   }
+  ],
+  "year": 2019,
+  "date": "2019-08-02",
+  "journal": "Journal of Political Economy",
+  "type": "article",
+  "cited_by_count": 3841,
+  "abstract_en": "We study the effects of industrial robots on US labor markets. We show theoretically that robots may reduce employment and wages and that their local impacts can be estimated using variation in exposure to robots—defined from industry-level advances in robotics and local industry employment. We estimate robust negative effects of robots on employment and wages across commuting zones. We also show that areas most exposed to robots after 1990 do not exhibit any differential trends before then, and robots’ impact is distinct from other capital and technologies. One more robot per thousand workers reduces the employment-to-population ratio by 0.2 percentage points and wages by 0.42%.",
+  "abstract_src": "openalex",
+  "branches": [
+   "07"
+  ],
+  "tags": [],
+  "source_channels": [
+   "manual_add"
+  ],
+  "first_seen": "2026-09-21",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
+ },
+ {
+  "id": "W2908363187",
+  "doi": "10.1257/aer.20170619",
+  "title_en": "The Long-Term Effects of Management and Technology Transfers",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Michela Giorcelli",
+    "oa_id": "A5034881399"
+   }
+  ],
+  "year": 2019,
+  "date": "2019-01-01",
+  "journal": "American Economic Review",
+  "type": "article",
+  "cited_by_count": 237,
+  "abstract_en": "This paper examines the long-run causal effects of management on firm performance. Under the United States Technical Assistance and Productivity Program (1952–1958), the United States organized management training trips for Italian managers to US firms and granted technologically advanced machines to Italian companies. I exploit an unexpected budget cut that reduced the number of participating firms and find that, compared to businesses excluded by the budget cut: performance of Italian firms that sent their managers to the United States increased for at least fifteen years after the program; performance of companies that received new machines increased, but flattened out over time; management and new machines were complementary. (JEL F23, L25, M16, M54, N34, N64, O33)",
+  "abstract_src": "openalex",
+  "branches": [
+   "09"
+  ],
+  "tags": [],
+  "source_channels": [
+   "manual_add"
+  ],
+  "first_seen": "2026-09-21",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
+ },
+ {
+  "id": "W2037086617",
+  "doi": "10.1257/aer.104.1.84",
+  "title_en": "Immigration and the Diffusion of Technology: The Huguenot Diaspora in Prussia",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Erik Hornung",
+    "oa_id": "A5037420297"
+   }
+  ],
+  "year": 2013,
+  "date": "2013-12-26",
+  "journal": "American Economic Review",
+  "type": "article",
+  "cited_by_count": 290,
+  "abstract_en": "This paper analyzes long-term effects of skilled-worker immigration on productivity for the Huguenot migration to Prussia. In 1685, religiously persecuted French Huguenots settled in Brandenburg-Prussia and compensated for population losses due to plagues during the Thirty Years’ War. We combine Huguenot immigration lists from 1700 with Prussian firm-level data on the value of inputs and outputs in 1802 in a unique database to analyze the effects of skilled immigration to places with underused economic potential. Exploiting this settlement pattern in an instrumental-variable approach, we find substantial long-term effects of Huguenot settlement on the productivity of textile manufactories. (JEL J24, J61, L67, N33, N63, O33, O47)",
+  "abstract_src": "openalex",
+  "branches": [
+   "02",
+   "09"
+  ],
+  "tags": [],
+  "source_channels": [
+   "manual_add"
+  ],
+  "first_seen": "2026-09-21",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
+ },
+ {
+  "id": "W2004558734",
+  "doi": "10.1007/s10961-005-5012-8",
+  "title_en": "The Impact of Gravity-Weighted Knowledge Spillovers on Productivity in Manufacturing",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Carol A. Robbins",
+    "oa_id": "A5109931492"
+   }
+  ],
+  "year": 2005,
+  "date": "2005-11-30",
+  "journal": "The Journal of Technology Transfer",
+  "type": "article",
+  "cited_by_count": 27,
+  "abstract_en": null,
+  "abstract_src": null,
+  "branches": [
+   "09"
+  ],
+  "tags": [],
+  "source_channels": [
+   "manual_add"
+  ],
+  "first_seen": "2026-09-21",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
+ },
+ {
+  "id": "W3021153383",
+  "doi": "10.1086/697086",
+  "title_en": "Social Ties and Favoritism in Chinese Science",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Raymond Fisman",
+    "oa_id": "A5005139544"
+   },
+   {
+    "name": "Jing Shi",
+    "oa_id": "A5062117713"
+   },
+   {
+    "name": "Yongxiang Wang",
+    "oa_id": "A5100641859"
+   },
+   {
+    "name": "Rong Xu",
+    "oa_id": "A5088534406"
+   }
+  ],
+  "year": 2018,
+  "date": "2018-01-22",
+  "journal": "Journal of Political Economy",
+  "type": "article",
+  "cited_by_count": 244,
+  "abstract_en": "We study favoritism via hometown ties, a common source of favor exchange in China, in fellow selection of the Chinese Academies of Sciences and Engineering. Hometown ties to fellow selection committee members increase candidates’ election probability by 39 percent, coming entirely from the selection stage involving an in-person meeting. Elected hometown-connected candidates are half as likely to have a high-impact publication as elected fellows without connections. CAS/CAE membership increases the probability of university leadership appointments and is associated with a US$9.5 million increase in annual funding for fellows’ institutions, indicating that hometown favoritism has potentially large effects on resource allocation.",
+  "abstract_src": "openalex",
+  "branches": [
+   "10",
+   "12"
+  ],
+  "tags": [],
+  "source_channels": [
+   "manual_add"
+  ],
+  "first_seen": "2026-09-21",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
+ },
+ {
+  "id": "W2625982026",
+  "doi": "10.1093/restud/rdy002",
+  "title_en": "Appropriate Technology and Balanced Growth",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Miguel A. León‐Ledesma",
+    "oa_id": "A5080659289"
+   },
+   {
+    "name": "Mathan Satchi",
+    "oa_id": "A5017209534"
+   }
+  ],
+  "year": 2018,
+  "date": "2018-01-17",
+  "journal": "The Review of Economic Studies",
+  "type": "article",
+  "cited_by_count": 77,
+  "abstract_en": "We provide a general theoretical characterization of how firms’ technology choice on a technology frontier determines the long-run elasticity of substitution between capital and labour. We show that the shape of the frontier determines factor shares and the elasticity of substitution between capital and labour. If there are adjustment costs to technology choice, the short- and long-run elasticities differ, with the long-run always higher. If the technology frontier is log-linear, the production function becomes Cobb–Douglas in the long run but, consistent with empirical evidence, short-run dynamics are characterized by gross complementarity. The approach is easily implementable and yields a powerful way to introduce CES-type production functions in macroeconomic models. We provide an illustration within an estimated dynamic general equilibrium model and show that the use of our production technology provides a good match for the short- and medium-run behaviour of the U.S. labour share.",
+  "abstract_src": "openalex",
+  "branches": [],
+  "tags": [],
+  "source_channels": [
+   "manual_add"
+  ],
+  "first_seen": "2026-09-21",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
  }
 ]
