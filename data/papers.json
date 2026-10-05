@@ -336270,5 +336270,130 @@
   "exists_in_zotero": "[新增]",
   "tier": null,
   "coarse_card": null
+ },
+ {
+  "id": "W7215118420",
+  "doi": "10.1257/aer.20231417",
+  "title_en": "Social Push and the Direction of Innovation",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Elias Einiö",
+    "oa_id": "A5069344106"
+   },
+   {
+    "name": "Josh Feng",
+    "oa_id": "A5023084495"
+   },
+   {
+    "name": "Xavier Jaravel",
+    "oa_id": "A5060513804"
+   }
+  ],
+  "year": 2026,
+  "date": "2026-10-01",
+  "journal": "AER",
+  "type": "article",
+  "cited_by_count": 0,
+  "abstract_en": "What are the implications of unequal access to innovation careers for the direction of innovation and inequality? Leveraging novel linked datasets in the United States and Finland, we document that innovators create products more likely to be purchased by consumers like them in terms of gender, socioeconomic status, and age. Homophily exists both within narrow product categories and across industries and has been stable in recent decades. Incorporating this “social push” channel into a growth model, we estimate that unequal access to innovation careers has a large effect on cost of living inequality and long-run growth. (JEL D63, J16, L26, M13, O31, O33, O47)",
+  "abstract_src": "openalex",
+  "branches": [
+   "01",
+   "09"
+  ],
+  "tags": [],
+  "source_channels": [
+   "kw:innovation"
+  ],
+  "first_seen": "2026-10-05",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
+ },
+ {
+  "id": "W7215029994",
+  "doi": "10.1257/aer.20231368",
+  "title_en": "Racial Promotion Gaps",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Deepak Hegde",
+    "oa_id": "A5067528271"
+   },
+   {
+    "name": "Alexander P. Ljungqvist",
+    "oa_id": "A5084233777"
+   },
+   {
+    "name": "Manav Raj",
+    "oa_id": "A5018390504"
+   }
+  ],
+  "year": 2026,
+  "date": "2026-10-01",
+  "journal": "AER",
+  "type": "article",
+  "cited_by_count": 0,
+  "abstract_en": "We study racial disparities in promotions in a setting in which promotions are formulaic: the US patent office. Using detailed administrative data that allow us to observe who is eligible for promotion when, we document that Black patent examiners experience delays in promotions they are entitled to, slowing their climb to the top of the career ladder by a year and reducing career earnings by 2.5 percent. Institutional features rule out statistical discrimination with accurate priors. Slow promotions even under Black supervisors argue against taste-based animus. Instead, the patterns fit models of belief-based discrimination. (JEL J15, J41, J71, M12, M51, O34)",
+  "abstract_src": "openalex",
+  "branches": [],
+  "tags": [],
+  "source_channels": [
+   "kw:patent"
+  ],
+  "first_seen": "2026-10-05",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
+ },
+ {
+  "id": "W7215055798",
+  "doi": "10.1257/aer.20230714",
+  "title_en": "Knowledge Spillovers, Competition, and Individual Careers",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Thomas Cornelißen",
+    "oa_id": "A5031952778"
+   },
+   {
+    "name": "Christian Dustmann",
+    "oa_id": "A5019216207"
+   },
+   {
+    "name": "Uta Schönberg",
+    "oa_id": "A5032383469"
+   }
+  ],
+  "year": 2026,
+  "date": "2026-10-01",
+  "journal": "AER",
+  "type": "article",
+  "cited_by_count": 0,
+  "abstract_en": "Exposure to better peers in the workplace can influence career trajectories through two opposing channels: positively, via knowledge spillovers, and negatively, through competition for advancement. We disentangle these effects by studying untrained labor market entrants and distinguishing between coworkers in the same occupation with whom they are likely to compete versus those with whom they are unlikely to compete. We find robust evidence of persistent knowledge spillovers but also identify countervailing competition effects of comparable magnitude. Both effects are more pronounced for men than for women. (JEL D83, J16, J24, M53, M54, O33)",
+  "abstract_src": "openalex",
+  "branches": [
+   "07"
+  ],
+  "tags": [],
+  "source_channels": [
+   "kw:knowledge spillover"
+  ],
+  "first_seen": "2026-10-05",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
  }
 ]
