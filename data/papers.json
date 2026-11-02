@@ -336395,5 +336395,82 @@
   "exists_in_zotero": "[新增]",
   "tier": null,
   "coarse_card": null
+ },
+ {
+  "id": "W7224756244",
+  "doi": "10.1257/aer.20230448",
+  "title_en": "The Unequal Economic Consequences of Carbon Pricing",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Diego R. Känzig",
+    "oa_id": "A5029764335"
+   }
+  ],
+  "year": 2026,
+  "date": "2026-10-30",
+  "journal": "AER",
+  "type": "article",
+  "cited_by_count": 0,
+  "abstract_en": "This paper studies the economic impacts of carbon pricing. Exploiting institutional features of the European carbon market and high-frequency data, I identify carbon policy shocks and trace their dynamic effects. A restrictive carbon policy shock raises energy prices, reduces emissions, spurs green innovation, but decreases economic activity—disproportionately burdening poorer households. Not only are the poor more affected because of their higher energy spending, but they also experience larger income losses. These indirect, general equilibrium effects via income and employment play an important role in the transmission of carbon pricing policies, accounting for about two-thirds of the aggregate consumption response. (JEL E23, E24, O44, Q41, Q54, Q55, Q58)",
+  "abstract_src": "openalex",
+  "branches": [
+   "04",
+   "15"
+  ],
+  "tags": [
+   "绿色"
+  ],
+  "source_channels": [
+   "kw:innovation",
+   "kw:green innovation"
+  ],
+  "first_seen": "2026-11-02",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
+ },
+ {
+  "id": "W7224863339",
+  "doi": "10.1257/aer.20231684",
+  "title_en": "The Returns to Government R&D: Evidence from US Appropriations Shocks",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Andrew J. Fieldhouse",
+    "oa_id": "A5078788336"
+   },
+   {
+    "name": "Karel Mertens",
+    "oa_id": "A5109233964"
+   }
+  ],
+  "year": 2026,
+  "date": "2026-10-30",
+  "journal": "AER",
+  "type": "article",
+  "cited_by_count": 0,
+  "abstract_en": "Based on a narrative classification of all significant postwar changes in R&D appropriations for five major federal agencies, we find that an increase in nondefense R&D appropriations leads to increases in various measures of innovative activity and higher business-sector productivity in the long run. We structurally estimate the production function elasticity of nondefense government R&D capital using the SP-IV methodology of Lewis and Mertens (2024) and obtain implied returns of 140 to 210 percent over the postwar period. The estimates indicate that government-funded R&D accounts for one-fifth of business-sector TFP growth since WWII and imply substantial underfunding of nondefense R&D. (JEL D24, E23, H50, O31, O33, O38)",
+  "abstract_src": "openalex",
+  "branches": [
+   "04",
+   "09"
+  ],
+  "tags": [],
+  "source_channels": [
+   "kw:R&D"
+  ],
+  "first_seen": "2026-11-02",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
  }
 ]
