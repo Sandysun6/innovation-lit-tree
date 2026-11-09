@@ -336472,5 +336472,49 @@
   "exists_in_zotero": "[新增]",
   "tier": null,
   "coarse_card": null
+ },
+ {
+  "id": "W2953307258",
+  "doi": "10.1257/aer.20190830",
+  "title_en": "How Research Affects Policy: Experimental Evidence from 2,150 Brazilian Municipalities",
+  "title_zh": null,
+  "authors": [
+   {
+    "name": "Jonas Hjort",
+    "oa_id": "A5022127778"
+   },
+   {
+    "name": "Diana Moreira",
+    "oa_id": "A5045196928"
+   },
+   {
+    "name": "Gautam Rao",
+    "oa_id": "A5060133831"
+   },
+   {
+    "name": "Juan Francisco Santini",
+    "oa_id": "A5011341403"
+   }
+  ],
+  "year": 2021,
+  "date": "2021-04-28",
+  "journal": "American Economic Review",
+  "type": "article",
+  "cited_by_count": 144,
+  "abstract_en": "Can research findings change political leaders’ beliefs and policies? We use experiments with 2,150 Brazilian municipalities to measure mayors’ demand for and response to research information. In one experiment, we find that mayors are willing to pay to learn the results of evaluation studies, and update their beliefs when informed of the findings. They value larger-sample studies more, while not distinguishing between studies in rich and poor countries. In a second experiment, we find that informing mayors about research on a simple and effective policy, taxpayer reminder letters, increases the probability the policy is implemented by 10 percentage points. (JEL D72, D78, D83, O17, O18)",
+  "abstract_src": "openalex",
+  "branches": [],
+  "tags": [],
+  "source_channels": [
+   "manual_add"
+  ],
+  "first_seen": "2026-11-09",
+  "refs_in_library": [],
+  "wp_of": null,
+  "published_as": null,
+  "superseded": false,
+  "exists_in_zotero": "[新增]",
+  "tier": null,
+  "coarse_card": null
  }
 ]
